@@ -1,12 +1,13 @@
 #include "anykey.h"
-#include <windows.h>
+#include <iostream>
+
 
 using AnyKey::runseq;
 using AnyKey::keyseq;
 
 int main() {
-  MMRESULT t;
-  keyseq ks = { {{122},1000},{{99},0} };
+  keyseq ks = {{{0x35},1000},{{0x20},1000}};
   runseq(ks);
+  std::cin.get();
   return 0;
 }
