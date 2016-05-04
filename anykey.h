@@ -1,8 +1,11 @@
+#ifndef _ANYKEY_H_
+#define _ANYKEY_H_
 #include <windows.h>
 #include <vector>
 using std::vector;
 
 namespace AnyKey {
+  HANDLE gevent;
   using byte = unsigned char;
   using keytime = struct {
     vector<byte> ks;
@@ -15,3 +18,4 @@ namespace AnyKey {
   MMRESULT runloop(keytime&);
   void stoploop(MMRESULT);
 }
+#endif
