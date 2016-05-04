@@ -1,20 +1,26 @@
 #include "anykey.h"
-#include <windows.h>
 
 namespace AnyKey {
   MMRESULT runseq(keyseq& kts) {
     MMRESULT timer;
     for(auto kt : kts) {
-      timer = timeSetEvent(kt.itv, 10, (LPTIMECALLBACK)keypress_cb,
-          DWORD(kt.key), TIME_ONESHOT);
+      timer = timeSetEvent(kt.itv, 10, (LPTIMECALLBACK)keyspress_cb,
+          DWORD(&kt.ks), TIME_ONESHOT);
     }
     return timer;
   }
-  void WINAPI keypress_cb(UINT, UINT, DWORD id, DWORD, DWORD) {
-    keybd_event((BYTE)id, 0, 0, 0);
-    keybd_event((BYTE)id, 0, KEYEVENTF_KEYUP, 0);
+  MMRESULT runloop(keytime& kt) {
+    timer = timeSetEvent(kt.itv, 10, (LPTIMECALLBACK)keyspress_cb,
+          DWORD(&kt.ks), TIME_PERIODIC);
+    return timer;
   }
-  void WINAPI keydown_cb(UINT, UINT, DWORD id, DWORD, DWORD) {
-    keybd_event((BYTE)id, 0, 0, 0);
+  void stoploop(MMRESULT timer) {
+    timeKillEvent(timer);
+  }
+  void WINAPI keyspress_cb(UINT, UINT, DWORD id, DWORD, DWORD) {
+    ks = *(vector<byte>*)id;
+    for(auto k : ks) keybd_event((BYTE)k, 0, 0, 0);
+    for(auto k = ks.rbegin(); k != ks.rend(); ++k)
+      keybd_event((BYTE)k, 0, KEYEVENTF_KEYUP, 0);
   }
 }
