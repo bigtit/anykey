@@ -1,12 +1,12 @@
 #include "anykey.h"
-#include <window.h>
+#include <windows.h>
 
 using AnyKey::runseq;
 using AnyKey::keyseq;
 
 int main() {
   MMRESULT t;
-  keyseq ks = {{122,1000},{99,0}};
+  keyseq ks = { {{122},1000},{{99},0} };
   runseq(ks);
   return 0;
 }
