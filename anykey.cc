@@ -2,15 +2,13 @@
 #include <windows.h>
 
 namespace AnyKey {
-  anykey::anykey():timer(0) {}
-  anykey::~anykey() {
-    if(timer) timeKillEvent(timer);
-  }
-  void anykey::run_seq(keyseq& kts) {
+  MMRESULT runseq(keyseq& kts) {
+    MMRESULT timer;
     for(auto kt : kts) {
       timer = timeSetEvent(kt.itv, 10, (LPTIMECALLBACK)keypress_cb,
           DWORD(kt.key), TIME_ONESHOT);
     }
+    return timer;
   }
   void WINAPI keypress_cb(UINT, UINT, DWORD id, DWORD, DWORD) {
     keybd_event((BYTE)id, 0, 0, 0);
