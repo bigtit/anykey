@@ -1,17 +1,18 @@
 #include "anykey.h"
-#include <iostream>
+// #include <iostream>
 
 namespace AnyKey {
+  HANDLE gevent;
   void WINAPI keyspress_cb(UINT, UINT, DWORD id, DWORD, DWORD) {
     auto ks = *(vector<byte>*)id;
     for(auto k : ks) keybd_event((BYTE)k, 0, 0, 0);
     for(auto k : ks) keybd_event((BYTE)k, 0, KEYEVENTF_KEYUP, 0);
-    std::cout << "key pressed: " << std::endl;
+    // std::cout << "key pressed: " << std::endl;
     SetEvent(gevent);
   }
   MMRESULT runseq(keyseq& kts) {
-    MMRESULT timer;
-    // auto& is mandatory here
+    MMRESULT timer = 0;
+    // auto& is mandatory
     // gevent = CreateEvent(NULL, TRUE, FALSE, NULL);
     for(auto& kt : kts) {
       gevent = CreateEvent(NULL, TRUE, FALSE, NULL);

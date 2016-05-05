@@ -5,7 +5,7 @@
 using std::vector;
 
 namespace AnyKey {
-  HANDLE gevent;
+  // extern HANDLE gevent;
   using byte = unsigned char;
   using keytime = struct {
     vector<byte> ks;
