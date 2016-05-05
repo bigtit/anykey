@@ -2,6 +2,9 @@
 #define _ANYKEY_H_
 #include <windows.h>
 #include <vector>
+#include <string>
+
+using std::string;
 using std::vector;
 
 namespace AnyKey {
@@ -15,6 +18,8 @@ namespace AnyKey {
   using keyseq = vector<keytime>;
 
   MMRESULT runseq(keyseq&);
+  MMRESULT runseq(string&); // deprecated
+  MMRESULT runseq(string&, int);
   MMRESULT runloop(keytime&);
   void stoploop(MMRESULT);
 }
