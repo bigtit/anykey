@@ -13,13 +13,11 @@ namespace AnyKey {
   MMRESULT runseq(keyseq& kts) {
     MMRESULT timer = 0;
     // auto& is mandatory
-    // gevent = CreateEvent(NULL, TRUE, FALSE, NULL);
     for(auto& kt : kts) {
       gevent = CreateEvent(NULL, TRUE, FALSE, NULL);
       if(!gevent) exit(-2);
-      timer = timeSetEvent(kt.itv, 10, (LPTIMECALLBACK)keyspress_cb,
-        DWORD(&kt.ks), TIME_ONESHOT);
-      WaitForSingleObjectEx(gevent, INFINITE, false);
+      timer = timeSetEvent(kt.itv, 10, (LPTIMECALLBACK)keyspress_cb, DWORD(&kt.ks), TIME_ONESHOT);
+      WaitForSingleObject(gevent, INFINITE);
       CloseHandle(gevent);
     }
     return timer;
